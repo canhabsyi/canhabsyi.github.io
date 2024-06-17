@@ -75,6 +75,14 @@ https://cdn01-telkomsel-01.akamaized.net/Content/DASH/Live/channel(784e32da-bdac
 #EXTINF:-1 tvg-logo="https://images.indihometv.com/logo_trans7_ver1.png" group-title="NASIONAL", TRANS 7 HD
 https://cdn01-telkomsel-01.akamaized.net/Content/DASH/Live/channel(bab870e9-ceaa-c720-864e-0cb46a9f5c03)/manifest.mpd
 
+#EXTINF:-1 tvg-id="CNN ID - [Channel 115].id" tvg-name="CNN ID" tvg-logo="https://images.indihometv.com/logo_cnnindonesia_ver1.png" group-title="NASIONAL", CNN ID
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+https://cdn01-telkomsel-01.akamaized.net/Content/DASH/Live/channel(9fd87254-2e8d-31f6-1237-4a1e3871cf6d)/manifest.mpd
+
+#EXTINF:-1 tvg-id="CNBC ID - [Channel 115].id" tvg-name="CNN ID" tvg-logo="https://images.indihometv.com/logo_cnbcindonesia_ver1.png" group-title="NASIONAL", CNBC ID
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+https://cdn01-telkomsel-01.akamaized.net/Content/DASH/Live/channel(8e574e33-dea7-5e88-b5f8-7b4c189ab578)/manifest.mpd
+
 #EXTINF:-1 tvg-id="NET - [Channel 116].id" tvg-name="NET" tvg-logo="https://images.indihometv.com/logo_net_ver1.png" group-title="NASIONAL", NET HD
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
 #EXTVLCOPT:http-referrer=https://www.indihometv.com
@@ -116,10 +124,9 @@ https://tonton-live-ssai.akamaized.net/live/2dd2b7cd-1b34-4871-b669-57b5c9beca23
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0 
 https://nusantaratv.siar.us/nusantaratv/live/playlist.m3u8
 
-#EXTINF:-1 tvg-id="CNN ID - [Channel 115].id" tvg-name="CNN ID" tvg-logo="https://images.indihometv.com/logo_cnnindonesia_ver1.png" group-title="NASIONAL", CNN ID
-#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
-#EXTVLCOPT:http-referrer=https://www.indihometv.com
-https://cdngb196.indihometv.com/joss/133/cnnindonesia/index.m3u8
+#EXTINF:-1 tvg-logo="https://tv.canhabsyi.cloud/img/canal86.jpg", CANAL86 HD
+https://live.canhabsyi.cloud/memfs/a1119df8-d9a2-4313-a8ee-ab33388fa8a7.m3u8
+
 
 	<!-- CANAL86 -->
 
