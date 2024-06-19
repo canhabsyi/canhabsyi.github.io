@@ -69,15 +69,20 @@ https://cempedak-live-cdn.mncnow.id/live/eds/MNCnews-HDD/sa_dash_vmx/MNCnews-HDD
 #EXTVLCOPT:http-referrer=https://www.visionplus.id/
 #KODIPROP:inputstream.adaptive.license_type=com.widevine.alpha
 #KODIPROP:inputstream.adaptive.license_key=https://mrpw.ptmnc01.verspective.net/?deviceId=NDIzMDJhZmUtYWRjMi0zNGJkLTkyN2EtYmE1ZDFlZWIwODEz
-#EXTINF:-1 tvg-logo="https://images.indihometv.com/logo_inews_big.png" group-title="NASIONAL",iNews
+#EXTINF:-1 tvg-logo="https://images.indihometv.com/logo_inews_big.png" group-title="NASIONAL", iNews
 https://cempedak-live-cdn.mncnow.id/live/eds/iNewsTV-HDD/sa_dash_vmx/iNewsTV-HDD.mpd
 
-#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Firefox/101.0 Safari/537.36 Edg/111.0.1661.43
+#EXTINF:-1 tvg-id="iNews - [Channel 433].id" tvg-name="iNews" tvg-logo="https://images.indihometv.com/logo_inews_big.png" group-title="NASIONAL", iNews HD
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0 
+#EXTVLCOPT:http-referrer=https://www.indihometv.com
+https://streaming.indihometv.com/atm/DASH/inews/manifest.mpd
+
 #EXTINF:-1 tvg-logo="https://images.indihometv.com/logo_transtv_ver2.png" group-title="NASIONAL", TRANS TV HD
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Firefox/101.0 Safari/537.36 Edg/111.0.1661.43
 https://cdn01-telkomsel-01.akamaized.net/Content/DASH/Live/channel(784e32da-bdac-7794-7122-0989aaf8959e)/manifest.mpd
 
-#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Firefox/101.0 Safari/537.36 Edg/111.0.1661.43
 #EXTINF:-1 tvg-logo="https://images.indihometv.com/logo_trans7_ver1.png" group-title="NASIONAL", TRANS 7 HD
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Firefox/101.0 Safari/537.36 Edg/111.0.1661.43
 https://cdn01-telkomsel-01.akamaized.net/Content/DASH/Live/channel(bab870e9-ceaa-c720-864e-0cb46a9f5c03)/manifest.mpd
 
 #EXTINF:-1 tvg-id="CNN ID - [Channel 115].id" tvg-name="CNN ID" tvg-logo="https://images.indihometv.com/logo_cnnindonesia_ver1.png" group-title="NASIONAL", CNN ID
