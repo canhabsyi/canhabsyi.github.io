@@ -173,6 +173,11 @@ https://d1u68oyra9spme.cloudfront.net/master.m3u8
 #EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
 https://live-bd2.tv360.vn/_Lqy5dSSGPT7mHskdDZ2KQ/1718964546/manifest/sukien/playlist_720p.m3u8?manifestfilter=video_bitrate:1-3600000&uid=231754708&m=1
 
+#EXTINF:-1 tvg-id="TV8,5" tvg-logo="https://pbs.twimg.com/profile_images/1425388900458057731/zY1DJNfC_400x400.jpg" group-title="SPORTS", TV8,5
+#EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
+https://cdn900.canlitv.me/tv85.m3u8?tkn=c_VAvgh6jge4cyq8CgNtIw&tms=1718933476&hst=www.canlitv.me&ip=180.253.185.121
+
+
 	<!-- CANAL86 -->
 
 #EXTVLCOPT:http-referrer=https://www.visionplus.id/
