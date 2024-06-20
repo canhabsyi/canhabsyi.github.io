@@ -165,11 +165,13 @@ https://linear301-it-dash1-prd-akp1.cdn13.skycdp.com/016a/31209/FHD/skysportseri
 https://linear301-it-dash1-prd.selector.skycdn.it/016a/31023/FHD/skysportuno/master.mpd
 
 
-#EXTINF:-1 tvg-id="Sky Sport Uno.it" tvg-logo="https://logowik.com/content/uploads/images/940_trt1_logo.jpg" group-title="SPORTS", TRT1
+#EXTINF:-1 tvg-id="TRT1" tvg-logo="https://logowik.com/content/uploads/images/940_trt1_logo.jpg" group-title="SPORTS", TRT1
 #EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
 https://d1u68oyra9spme.cloudfront.net/master.m3u8
 
-
+#EXTINF:-1 tvg-id="TV360" tvg-logo="https://cdn-1.webcatalog.io/catalog/tv360/tv360-icon-filled-256.png" group-title="SPORTS", TV360
+#EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
+https://live-bd2.tv360.vn/_Lqy5dSSGPT7mHskdDZ2KQ/1718964546/manifest/sukien/playlist_720p.m3u8?manifestfilter=video_bitrate:1-3600000&uid=231754708&m=1
 
 	<!-- CANAL86 -->
 
