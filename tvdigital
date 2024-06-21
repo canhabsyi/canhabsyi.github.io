@@ -179,6 +179,15 @@ https://live-bd2.tv360.vn/_Lqy5dSSGPT7mHskdDZ2KQ/1718964546/manifest/sukien/play
 https://cdn900.canlitv.me/tv85.m3u8?tkn=c_VAvgh6jge4cyq8CgNtIw&tms=1718933476&hst=www.canlitv.me&ip=180.253.185.121
 
 
+#EXTINF:-1 tvg-id="TVMAX" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/6/68/Logo_tvmax.png" group-title="SPORTS", TVMAX
+#EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
+https://bcovlive-a.akamaihd.net/74f665e9ff8447639d4de4b8b458d8ae/us-east-1/6058004209001/profile_0/chunklist_dvr.m3u8
+
+#EXTINF:-1 tvg-id="TSN1" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/6/68/Logo_tvmax.png" group-title="SPORTS", TSN1
+#EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
+http://mega4k.one:8080/Hitesh123/Hitesh123/96496
+
+
 	<!-- CANAL86 -->
 
 #EXTVLCOPT:http-referrer=https://www.visionplus.id/
