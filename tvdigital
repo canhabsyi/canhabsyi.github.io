@@ -126,6 +126,12 @@ https://cdn01-telkomsel-01.akamaized.net/Content/DASH/Live/channel(1a609789-8ed7
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0 
 https://cdn01-telkomsel-01.akamaized.net/Content/DASH/Live/channel(41d51f9f-8855-e625-012f-304a1f0eb538)/manifest.mpd
 
+#EXTINF:-1 tvg-id="MAXStream - [Channel 115].id" tvg-name="MAXStream" tvg-logo="https://images.indihometv.com/assets/OTT-88-MAXSTREAM-HD.png" group-title="NASIONAL", MAXStream
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0 
+#EXTVLCOPT:http-referrer=https://www.indihometv.com
+https://cdn08jtedge.indihometv.com/dassdvr/194/maxstream/manifest.mpd
+
+
 #EXTINF:-1 tvg-logo="https://tv.canhabsyi.cloud/img/tv3.png" group-title="NASIONAL", TV3
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0 
 https://tonton-live-ssai.akamaized.net/live/2dd2b7cd-1b34-4871-b669-57b5c9beca23/cmaf.isml/.m3u8
@@ -136,6 +142,7 @@ https://nusantaratv.siar.us/nusantaratv/live/playlist.m3u8
 
 #EXTINF:-1 tvg-logo="https://tv.canhabsyi.cloud/img/canal86.jpg" group-title="NASIONAL", CANAL86 HD
 https://live.canhabsyi.cloud/memfs/a1119df8-d9a2-4313-a8ee-ab33388fa8a7.m3u8
+
 
 	<!-- CANAL86 SPORTS -->
 
@@ -151,39 +158,16 @@ https://cdn08jtedge.indihometv.com/dassdvr/133/beib1/manifest.mpd
 #KODIPROP:inputstream.adaptive.license_key=69646b755f3130303030303030303030:e4a2359b05563399f1d9adfce641724a
 https://cdn08jtedge.indihometv.com/dassdvr/133/beib2/manifest.mpd
 
-#EXTINF:-1 tvg-id="Sky Sport Calcio.it" tvg-logo="https://i.ibb.co/qkrBGMd/skycalcio.png" group-title="SPORTS", Sky SPORT CALCIO ITA
-#KODIPROP:inputstreamaddon=inputstream.adaptive
-#KODIPROP:inputstream.adaptive.manifest_type=dash
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key=0036e5d0e88dfb087f1791da6150ced9:0bc653d830837dceb13bd17169f0f8e2
-https://linear301-it-dash1-prd-akp1.cdn13.skycdp.com/016a/31209/FHD/skysportseriea/master.mpd
-
-#EXTINF:-1 tvg-id="Sky Sport Uno.it" tvg-logo="https://i.ibb.co/hFrqB1J/skysportuno.png" group-title="SPORTS", Sky SPORT UNO ITA
-#KODIPROP:inputstreamaddon=inputstream.adaptive
-#KODIPROP:inputstream.adaptive.manifest_type=dash
-#KODIPROP:inputstream.adaptive.license_type=clearkey
-#KODIPROP:inputstream.adaptive.license_key=00362452ed102000ccea64c311921dc2:02f27bd6caab7633d3083b94d3958b1c
-https://linear301-it-dash1-prd.selector.skycdn.it/016a/31023/FHD/skysportuno/master.mpd
-
 
 #EXTINF:-1 tvg-id="TRT1" tvg-logo="https://logowik.com/content/uploads/images/940_trt1_logo.jpg" group-title="SPORTS", TRT1
 #EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
 https://d1u68oyra9spme.cloudfront.net/master.m3u8
 
-#EXTINF:-1 tvg-id="TV360" tvg-logo="https://cdn-1.webcatalog.io/catalog/tv360/tv360-icon-filled-256.png" group-title="SPORTS", TV360
-#EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
-https://live-bd2.tv360.vn/_Lqy5dSSGPT7mHskdDZ2KQ/1718964546/manifest/sukien/playlist_720p.m3u8?manifestfilter=video_bitrate:1-3600000&uid=231754708&m=1
-
-#EXTINF:-1 tvg-id="TV8,5" tvg-logo="https://pbs.twimg.com/profile_images/1425388900458057731/zY1DJNfC_400x400.jpg" group-title="SPORTS", TV8,5
-#EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
-https://cdn900.canlitv.me/tv85.m3u8?tkn=c_VAvgh6jge4cyq8CgNtIw&tms=1718933476&hst=www.canlitv.me&ip=180.253.185.121
-
-
-#EXTINF:-1 tvg-id="TVMAX" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/6/68/Logo_tvmax.png" group-title="SPORTS", TVMAX
+#EXTINF:-1 tvg-id="TVMAX" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeka8DdCdaEhVJ5LUVI2FrPOFuXAZS_MMUrw&s" group-title="SPORTS", TVMAX
 #EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
 https://bcovlive-a.akamaihd.net/74f665e9ff8447639d4de4b8b458d8ae/us-east-1/6058004209001/profile_0/chunklist_dvr.m3u8
 
-#EXTINF:-1 tvg-id="TSN1" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/6/68/Logo_tvmax.png" group-title="SPORTS", TSN1
+#EXTINF:-1 tvg-id="TSN1" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSlCGTblu8K5KYJGBIoqTWlte4zwaHOgFVDA&s" group-title="SPORTS", TSN1
 #EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
 http://mega4k.one:8080/Hitesh123/Hitesh123/96496
 
