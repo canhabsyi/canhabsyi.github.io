@@ -171,6 +171,9 @@ https://bcovlive-a.akamaihd.net/74f665e9ff8447639d4de4b8b458d8ae/us-east-1/60580
 #EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
 http://mega4k.one:8080/Hitesh123/Hitesh123/96496
 
+#EXTINF:-1 tvg-id="SPORTS 4 HD" tvg-logo="https://www.mncvision.id/userfiles/image/channel/channel_424.png" group-title="SPORTS", SPORTS 4 HD
+#EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
+https://github.com/canhabsyi/canhabsyi.github.io/raw/main/tv.m3u8
 
 	<!-- CANAL86 -->
 
