@@ -1,5 +1,5 @@
 #EXTM3U
 #EXTINF:-1 tvg-id="GTV - [Channel 115].id" tvg-name="GTV" tvg-logo="https://images.indihometv.com/assets/logo_gtv_hd.png" group-title="NASIONAL", GTV
 #EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
-#EXTVLCOPT:http-referrer=https://www.rctiplus.id
+#EXTHTTP:http-referrer=https://www.rctiplus.id
 https://gcdn.rctiplus.id/gtv-sdi.m3u8?auth_key=1719183254-df52cf168a779dae2ae7ba7da7b24e3b-sZjZAn0sulSKdtBrCsJsbdIeKRZNkA0Vv2cCqijH-ce74eb1b4a949fb731f09f11947ecb30
