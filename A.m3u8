@@ -1,5 +1,5 @@
 #EXTM3U
 #EXTINF:-1 tvg-name="GTV" tvg-logo="https://images.indihometv.com/assets/logo_gtv_hd.png" group-title="NASIONAL",GTV HD
-#EXTVLCOPT:http-user-agent=android-R+
+#EXTHTTP:{"User-Agent":"android-R+"}
 #EXTVLCOPT:http-referrer=https://www.rctiplus.com/
 https://r-plus.sedotcw3.workers.dev/index.m3u8?id=gtv
