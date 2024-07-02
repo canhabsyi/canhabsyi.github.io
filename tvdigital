@@ -175,6 +175,10 @@ https://cdn08jtedge.indihometv.com/dassdvr/133/beib2/manifest.mpd
 #EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
 https://d1u68oyra9spme.cloudfront.net/master.m3u8
 
+#EXTINF:-1 tvg-id="RTB-GO" tvg-logo="https://play-lh.googleusercontent.com/yTxqFhaqPsnfdj62xfmVPlvWJ1z9hf4mw8SNSF6YYrYec7Mcf3zAv-Iaf5ggYBNHkVbk" group-title="SPORTS", RTB GO 
+#EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
+https://d1211whpimeups.cloudfront.net/smil:rtb2/master.m3u8
+
 #EXTINF:-1 tvg-id="TVMAX" tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeka8DdCdaEhVJ5LUVI2FrPOFuXAZS_MMUrw&s" group-title="SPORTS", TVMAX
 #EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
 https://bcovlive-a.akamaihd.net/74f665e9ff8447639d4de4b8b458d8ae/us-east-1/6058004209001/profile_0/chunklist_dvr.m3u8
