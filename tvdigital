@@ -136,6 +136,9 @@ https://cors.iptvsystem.my.id/https://cdn08jtedge.indihometv.com/dassdvr/130/bio
 #EXTVLCOPT:http-referrer=https://www.indihometv.com
 https://cdn08jtedge.indihometv.com/dassdvr/194/maxstream/manifest.mpd
 
+#EXTINF:-1 tvg-logo="https://i.ibb.co.com/z72Hk70/mycinema.png" group-title="NASIONAL", MY CINEMA ID
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0 
+https://op-group1-swiftservehd-1.dens.tv/h/h192/index.m3u8?app_type=web&userid=lite&chname=My_Cinema_HD
 
 #EXTINF:-1 tvg-logo="https://tv.canhabsyi.cloud/img/tv3.png" group-title="NASIONAL", TV3
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0 
