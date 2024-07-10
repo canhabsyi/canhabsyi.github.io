@@ -27,7 +27,7 @@ http://op-group1-swiftservehd-1.dens.tv/h/h207/02.m3u8
 #EXTINF:-1 tvg-id="SCTV - [Channel 115].id" tvg-name="SCTV" tvg-logo="https://images.indihometv.com/logo_sctv_big1.png" group-title="NASIONAL", SCTV HD
 #EXTHTTP:{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"}
 #EXTVLCOPT:http-referrer=https://www.indihometv.com
-https://cdn09jtedge.indihometv.com/atm/DASH/sctv/manifest.mpd
+https://cdngb196.indihometv.com/atm/DASH/sctv/manifest.mpd
 
 #EXTINF:-1 tvg-logo="https://images.indihometv.com/logo_sctv_ver3.png" group-title="NASIONAL", SCTV 
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0 
