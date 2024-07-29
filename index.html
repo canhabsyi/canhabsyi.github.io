@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+					<!--CANAL86-->
+	<script src="https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/lock.js"></script>
+	<script disable-devtool-auto src='https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/dev.js'></script>
+<title>TV</title>
+    <link rel="stylesheet" href="styles.css">
+	<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/clappr/dash-shaka-playback@latest/dist/dash-shaka-playback.js"></script>
+</head>
+
+<style>
+/* CSS untuk container player */
+#player-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* Untuk rasio 16:9, sesuaikan jika diperlukan */
+    background-color: #000;
+    overflow: hidden;
+}
+
+/* CSS untuk player dalam kondisi fullscreen */
+#player-container {
+    position: fixed; /* atau relative, sesuai kebutuhan */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 0;
+    margin: 0;
+    overflow: hidden;
+}
+</style>
+
+<body>
+<div id="player-container">
+<script>
+    // Inisialisasi Clappr player
+    var player = new Clappr.Player({
+        source: 'https://d1211whpimeups.cloudfront.net/smil:rtb2/master.m3u8', // Ganti dengan URL video Anda
+		plugins: {playback: [DashShakaPlayback]},
+        parentId: '#player-container',
+        width: "100%",
+        height: "100%",
+        autoPlay: true,
+		poster: "https://ambontv.my.id/livetv.png"
+    });
+
+    // Toggle fullscreen
+    var playerContainer = document.getElementById('player-container');
+    playerContainer.addEventListener('click', function() {
+        playerContainer.classList.toggle('fullscreen');
+        player.resize();
+    });
+</script>
+	<script> 
+	        function onFullScreenChange() {
+            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+                // Memasuki mode layar penuh
+                if (screen.orientation && screen.orientation.lock) {
+                    screen.orientation.lock('landscape');
+                }
+            } else {
+                // Keluar dari mode layar penuh
+                if (screen.orientation && screen.orientation.unlock) {
+                    screen.orientation.unlock();
+                }
+            }
+        }
+
+        document.addEventListener('fullscreenchange', onFullScreenChange);
+        document.addEventListener('webkitfullscreenchange', onFullScreenChange);
+        document.addEventListener('mozfullscreenchange', onFullScreenChange);
+        document.addEventListener('MSFullscreenChange', onFullScreenChange);
+	</script>
+</div>
+</body>
+</html>
