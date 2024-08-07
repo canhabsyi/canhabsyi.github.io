@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>TV</title>
-	<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/clappr/dash-shaka-playback@latest/dist/dash-shaka-playback.js"></script>
-</head>
-
+<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/clappr/dash-shaka-playback@latest/dist/dash-shaka-playback.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clappr-level-selector@latest/dist/level-selector.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clappr-pip@latest/dist/clappr-pip.min.js"></script>
 <style>
 /* CSS untuk container player */
 #player-container {
@@ -19,8 +19,7 @@
     overflow: hidden;
 }
 
-/* CSS untuk player dalam kondisi fullscreen */
-#player-container {
+#player-container.fullscreen {
     position: fixed; /* atau relative, sesuai kebutuhan */
     top: 0;
     left: 0;
@@ -30,33 +29,79 @@
     margin: 0;
     overflow: hidden;
 }
-
 </style>
-
+</head>
 <body>
-<div id="player-container">
-<script src="https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/playerku.js"></script>
+<div id="player-container"></div>
+<script>
+    function getQueryParam(param) {
+        var urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
 
-	<script> 
-	        function onFullScreenChange() {
-            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
-                // Memasuki mode layar penuh
-                if (screen.orientation && screen.orientation.lock) {
-                    screen.orientation.lock('landscape');
-                }
-            } else {
-                // Keluar dari mode layar penuh
-                if (screen.orientation && screen.orientation.unlock) {
-                    screen.orientation.unlock();
-                }
+    function playM3u8(url, license, clearkeys) {
+        var player = new Clappr.Player({
+            source: url,
+            parentId: '#player-container',
+            preload: 'auto',
+            autoPlay: true,
+            width: '100%',
+            height: '100%',
+            fullscreenEnabled: true,
+            hideMediaControl: false,
+            plugins: [LevelSelector, ClapprPip.PipButton, ClapprPip.PipPlugin, DashShakaPlayback],
+            shakaConfiguration: {
+                drm: {
+                    servers: {
+                        'com.widevine.alpha': license
+                    },
+                    clearKeys: JSON.parse(clearkeys)
+                },
+            },
+        });
+
+        document.title = url; //.split('/')[url.split('/').length - 1];
+    }
+
+    var url = getQueryParam('url');
+    var ck = getQueryParam('ck') ? window.atob(getQueryParam('ck')) : '{"":""}';
+    var license = getQueryParam('l') ? window.atob(getQueryParam('l')) : '';
+
+    if (url) {
+        playM3u8(url, license, ck);
+    } else {
+        alert("URL video tidak ditemukan. Pastikan parameter 'url' sudah benar.");
+    }
+
+    // Toggle fullscreen
+    var playerContainer = document.getElementById('player-container');
+    playerContainer.addEventListener('click', function() {
+        if (!document.fullscreenElement) {
+            playerContainer.requestFullscreen().catch(err => {
+                alert(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    });
+
+    // Lock orientation on fullscreen
+    function onFullScreenChange() {
+        if (document.fullscreenElement) {
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('landscape');
+            }
+        } else {
+            if (screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
             }
         }
+    }
 
-        document.addEventListener('fullscreenchange', onFullScreenChange);
-        document.addEventListener('webkitfullscreenchange', onFullScreenChange);
-        document.addEventListener('mozfullscreenchange', onFullScreenChange);
-        document.addEventListener('MSFullscreenChange', onFullScreenChange);
-	</script>
-</div>
+    document.addEventListener('fullscreenchange', onFullScreenChange);
+    document.addEventListener('webkitfullscreenchange', onFullScreenChange);
+    document.addEventListener('mozfullscreenchange', onFullScreenChange);
+    document.addEventListener('MSFullscreenChange', onFullScreenChange);
+</script>
 </body>
 </html>
