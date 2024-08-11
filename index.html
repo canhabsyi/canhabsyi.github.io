@@ -6,7 +6,7 @@
 <!--CANAL86-->
 <script src="https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/lock.js"></script>
 <script disable-devtool-auto src='https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/dev.js'></script>
-<title>TV</title>
+<title>Play</title>
 <link rel="icon" href="https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/logo/play.png" type="image/png" />
 <link rel="stylesheet" href="styles.css">
 <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
@@ -40,21 +40,26 @@
 <body>
 <div id="player-container"></div>
 <script>
-    // Mendapatkan parameter URL
-    function getParameterByName(name) {
-        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-            results = regex.exec(location.search);
-        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, " "));
+    // Mendapatkan URL stream dari hash
+    var streamUrl = window.location.hash.substring(1).split('?')[0] || 'https://d1211whpimeups.cloudfront.net/smil:rtb2/master.m3u8';
+
+    // Mendapatkan keyId dan key dari query string setelah hash
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-    var streamUrl = getParameterByName('streamUrl') || 'https://d1211whpimeups.cloudfront.net/smil:rtb2/master.m3u8';
-    var keyId = getParameterByName('keyId');
-    var key = getParameterByName('key');
+    var keyId = getParameterByName('keyId', window.location.hash);
+    var key = getParameterByName('key', window.location.hash);
 
     // Inisialisasi Clappr player
     var player = new Clappr.Player({
-        source: streamUrl, // URL video dari parameter
+        source: streamUrl, // URL video dari hash
         plugins: {playback: [DashShakaPlayback]},
         parentId: '#player-container',
         width: "100%",
@@ -95,10 +100,13 @@
     document.addEventListener('mozfullscreenchange', onFullScreenChange);
     document.addEventListener('MSFullscreenChange', onFullScreenChange);
 </script>
-</div>
+
+
+<!--- 
+http://yourdomain.com/player.html#https://d1211whpimeups.cloudfront.net/smil:rtb2/master.m3u8?keyId=your_key_id_in_base64&key=your_key_in_base64
+---->
+
+
 </body>
-
-<!-- http://yourdomain.com/yourpage.html?streamUrl=https://example.com/stream.m3u8&keyId=your_key_id_in_base64&key=your_key_in_base64
--->
-
 </html>
+
