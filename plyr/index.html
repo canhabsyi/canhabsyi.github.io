@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<!--CANAL86-->
+<script src="https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/lock.js"></script>
+<script disable-devtool-auto src='https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/dev.js'></script>
+<title>Play</title>
+<link rel="icon" href="https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/logo/play.png" type="image/png" />
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/clappr/dash-shaka-playback@latest/dist/dash-shaka-playback.js"></script>
+</head>
+
+<style>
+/* CSS untuk container player */
+#player-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* Untuk rasio 16:9, sesuaikan jika diperlukan */
+    background-color: #000;
+    overflow: hidden;
+}
+
+/* CSS untuk player dalam kondisi fullscreen */
+#player-container.fullscreen {
+    position: fixed; /* atau relative, sesuai kebutuhan */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 0;
+    margin: 0;
+    overflow: hidden;
+}
+</style>
+
+<body>
+<div id="player-container"></div>
+<script>
+    function loadPlayer(streamUrl, keyId, key) {
+        // Inisialisasi Clappr player
+        var player = new Clappr.Player({
+            source: streamUrl,
+            plugins: {playback: [DashShakaPlayback]},
+            parentId: '#player-container',
+            width: "100%",
+            height: "100%",
+            autoPlay: true,
+            poster: "https://ambontv.my.id/livetv.png",
+            shakaConfiguration: {
+                drm: {
+                    clearKeys: keyId && key ? { [keyId]: key } : {}
+                }
+            }
+        });
+
+        // Toggle fullscreen
+        var playerContainer = document.getElementById('player-container');
+        playerContainer.addEventListener('click', function() {
+            playerContainer.classList.toggle('fullscreen');
+            player.resize();
+        });
+
+        // Fungsi untuk menangani perubahan layar penuh
+        function onFullScreenChange() {
+            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+                // Memasuki mode layar penuh
+                if (screen.orientation && screen.orientation.lock) {
+                    screen.orientation.lock('landscape');
+                }
+            } else {
+                // Keluar dari mode layar penuh
+                if (screen.orientation && screen.orientation.unlock) {
+                    screen.orientation.unlock();
+                }
+            }
+        }
+
+        document.addEventListener('fullscreenchange', onFullScreenChange);
+        document.addEventListener('webkitfullscreenchange', onFullScreenChange);
+        document.addEventListener('mozfullscreenchange', onFullScreenChange);
+        document.addEventListener('MSFullscreenChange', onFullScreenChange);
+    }
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    function initPlayer() {
+        var streamUrl = window.location.hash.substring(1).split('?')[0] || 'https://d1211whpimeups.cloudfront.net/smil:rtb2/master.m3u8';
+        var keyId = getParameterByName('keyId', window.location.hash);
+        var key = getParameterByName('key', window.location.hash);
+
+        loadPlayer(streamUrl, keyId, key);
+    }
+
+    window.addEventListener('hashchange', function() {
+        // Hapus player sebelumnya
+        document.getElementById('player-container').innerHTML = '';
+        // Inisialisasi ulang player dengan URL baru
+        initPlayer();
+    });
+
+    // Inisialisasi pertama kali
+    initPlayer();
+</script>
+
+
+<!--- 
+http://yourdomain.com/player.html#https://d1211whpimeups.cloudfront.net/smil:rtb2/master.m3u8?keyId=your_key_id_in_base64&key=your_key_in_base64
+---->
+
+
+</body>
+</html>
