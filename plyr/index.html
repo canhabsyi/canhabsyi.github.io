@@ -25,7 +25,7 @@
 }
 
 /* CSS untuk player dalam kondisi fullscreen */
-#player-container.fullscreen {
+#player-container {
     position: fixed; /* atau relative, sesuai kebutuhan */
     top: 0;
     left: 0;
@@ -40,85 +40,65 @@
 <body>
 <div id="player-container"></div>
 <script>
-    function loadPlayer(streamUrl, keyId, key) {
-        // Inisialisasi Clappr player
-        var player = new Clappr.Player({
-            source: streamUrl,
-            plugins: {playback: [DashShakaPlayback]},
-            parentId: '#player-container',
-            width: "100%",
-            height: "100%",
-            autoPlay: true,
-            poster: "https://ambontv.my.id/livetv.png",
-            shakaConfiguration: {
-                drm: {
-                    clearKeys: keyId && key ? { [keyId]: key } : {}
-                }
-            }
-        });
+    // Mendapatkan parameter URL
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
 
-        // Toggle fullscreen
-        var playerContainer = document.getElementById('player-container');
-        playerContainer.addEventListener('click', function() {
-            playerContainer.classList.toggle('fullscreen');
-            player.resize();
-        });
+    var url = getParameterByName('url') || 'https://d1211whpimeups.cloudfront.net/smil:rtb2/master.m3u8';
+    var keyId = getParameterByName('keyId');
+    var key = getParameterByName('key');
 
-        // Fungsi untuk menangani perubahan layar penuh
-        function onFullScreenChange() {
-            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
-                // Memasuki mode layar penuh
-                if (screen.orientation && screen.orientation.lock) {
-                    screen.orientation.lock('landscape');
-                }
-            } else {
-                // Keluar dari mode layar penuh
-                if (screen.orientation && screen.orientation.unlock) {
-                    screen.orientation.unlock();
-                }
+    // Inisialisasi Clappr player
+    var player = new Clappr.Player({
+        source: streamUrl, // URL video dari parameter
+        plugins: {playback: [DashShakaPlayback]},
+        parentId: '#player-container',
+        width: "100%",
+        height: "100%",
+        autoPlay: true,
+        poster: "https://ambontv.my.id/livetv.png",
+        shakaConfiguration: {
+            drm: {
+                clearKeys: keyId && key ? { [keyId]: key } : {}
             }
         }
-
-        document.addEventListener('fullscreenchange', onFullScreenChange);
-        document.addEventListener('webkitfullscreenchange', onFullScreenChange);
-        document.addEventListener('mozfullscreenchange', onFullScreenChange);
-        document.addEventListener('MSFullscreenChange', onFullScreenChange);
-    }
-
-    function getParameterByName(name, url) {
-        if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
-
-    function initPlayer() {
-        var streamUrl = window.location.hash.substring(1).split('?')[0] || 'https://d1211whpimeups.cloudfront.net/smil:rtb2/master.m3u8';
-        var keyId = getParameterByName('keyId', window.location.hash);
-        var key = getParameterByName('key', window.location.hash);
-
-        loadPlayer(streamUrl, keyId, key);
-    }
-
-    window.addEventListener('hashchange', function() {
-        // Hapus player sebelumnya
-        document.getElementById('player-container').innerHTML = '';
-        // Inisialisasi ulang player dengan URL baru
-        initPlayer();
     });
 
-    // Inisialisasi pertama kali
-    initPlayer();
+    // Toggle fullscreen
+    var playerContainer = document.getElementById('player-container');
+    playerContainer.addEventListener('click', function() {
+        playerContainer.classList.toggle('fullscreen');
+        player.resize();
+    });
+
+    // Fungsi untuk menangani perubahan layar penuh
+    function onFullScreenChange() {
+        if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+            // Memasuki mode layar penuh
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('landscape');
+            }
+        } else {
+            // Keluar dari mode layar penuh
+            if (screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
+            }
+        }
+    }
+
+    document.addEventListener('fullscreenchange', onFullScreenChange);
+    document.addEventListener('webkitfullscreenchange', onFullScreenChange);
+    document.addEventListener('mozfullscreenchange', onFullScreenChange);
+    document.addEventListener('MSFullscreenChange', onFullScreenChange);
 </script>
-
-
-<!--- 
-http://yourdomain.com/player.html#https://d1211whpimeups.cloudfront.net/smil:rtb2/master.m3u8?keyId=your_key_id_in_base64&key=your_key_in_base64
----->
-
-
+</div>
 </body>
+
+<!-- http://yourdomain.com/yourpage.html?streamUrl=https://example.com/stream.m3u8&keyId=your_key_id_in_base64&key=your_key_in_base64
+-->
+
 </html>
