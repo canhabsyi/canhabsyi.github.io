@@ -48,13 +48,13 @@
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
-    var streamUrl = getParameterByName('streamUrl') || 'https://d1211whpimeups.cloudfront.net/smil:rtb2/master.m3u8';
+    var url = getParameterByName('url') || 'https://d1211whpimeups.cloudfront.net/smil:rtb2/master.m3u8';
     var keyId = getParameterByName('keyId');
     var key = getParameterByName('key');
 
     // Inisialisasi Clappr player
     var player = new Clappr.Player({
-        source: streamUrl, // URL video dari parameter
+        source: url, // URL video dari parameter
         plugins: {playback: [DashShakaPlayback]},
         parentId: '#player-container',
         width: "100%",
@@ -98,7 +98,7 @@
 </div>
 </body>
 
-<!-- http://yourdomain.com/yourpage.html?streamUrl=https://example.com/stream.m3u8&keyId=your_key_id_in_base64&key=your_key_in_base64
+<!-- http://yourdomain.com/yourpage.html?url=https://example.com/stream.m3u8&keyId=your_key_id_in_base64&key=your_key_in_base64
 -->
 
 </html>
