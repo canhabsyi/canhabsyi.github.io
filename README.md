@@ -26,6 +26,11 @@
 https://canhabsyi.github.io#https://example.com/stream.m3u8
 ```
 
+
+```url
+https://canhabsyi.github.io#https://example.com/manifest.mpd
+```
+
 <br>
 <br>
 
