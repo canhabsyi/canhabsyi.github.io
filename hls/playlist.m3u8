@@ -1,4 +1,4 @@
 #EXTM3U
 #EXT-X-VERSION:3
-#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=4000000
-https://live.canhabsyi.cloud/memfs/08ee8f72-0d4d-423b-8b87-0bfea1799507.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=4000000,RESOLUTION=3840x2160
+https://op-group1-swiftservehd-1.dens.tv/h/h10/index.m3u8?app_type=web&userid=lite&chname=RTV
