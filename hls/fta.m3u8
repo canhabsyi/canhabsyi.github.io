@@ -118,9 +118,9 @@ https://live.cnbcindonesia.com/livecnbc/smil:cnbctv.smil/playlist.m3u8
 #EXTINF:-1 tvg-logo="https://images.indihometv.com/assets/1740642278_MDTV-88-WARNA.png" group-title="NASIONAL", MDTV HD
 http://op-group1-swiftservesd-1.dens.tv/h/h06/index.m3u8
 
-#EXTINF:-1 tvg-id="RTV - [Channel 116].id" tvg-name="RTV" tvg-logo="https://images.indihometv.com/logo_rtv_big1.png" group-title="NASIONAL", RTV HD
+#EXTINF:-1 tvg-logo="https://images.indihometv.com/logo_rtv_big1.png" group-title="NASIONAL", RTV HD
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
-https://op-group1-swiftservehd-1.dens.tv/h/h217/index.m3u8
+http://op-group1-swiftservehd-1.dens.tv/h/h10/index.m3u8
 
 #EXTINF:-1 tvg-logo="https://images.indihometv.com/logo_metrotv_big1.png" group-title="NASIONAL", METRO TV HD
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
