@@ -133,7 +133,7 @@ https://streaming.indihometv.com/atm/DASH/KOMPAS_TV/manifest.mpd
 
 #EXTINF:-1 tvg-logo="https://images.indihometv.com/logo_beritasatu_ver1.png" group-title="NASIONAL", BTV HD
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
-https://b1news.beritasatumedia.com/Beritasatu/B1News_1280x720.m3u8
+https://btv.secureswiftcontent.com/han/btv/btv10005/srtoutput/manifest.m3u8
 #####https://op-group1-swiftservehd-1.dens.tv/h/h210/index.m3u8?app_type=web&userid=lite&chname=BTV
 
 #EXTINF:-1 tvg-logo="https://images.indihometv.com/logo_beritasatu_big1.png" group-title="NASIONAL", BERITA SATU HD
