@@ -124,7 +124,12 @@ http://op-group1-swiftservehd-1.dens.tv/h/h10/index.m3u8
 
 #EXTINF:-1 tvg-logo="https://images.indihometv.com/logo_metrotv_big1.png" group-title="NASIONAL", METRO TV HD
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
-https://edge.medcom.id/live-edge/smil:metro.smil/playlist.m3u8
+####https://edge.medcom.id/live-edge/smil:metro.smil/playlist.m3u8
+https://op-group1-swiftservehd-1.dens.tv/h/h12/index.m3u8
+
+#EXTINF:-1 tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQURGA2Ksixu_Po5dL8w3u5ovh3pIEzPBwlEA&s" group-title="NASIONAL", MAGNA TV HD
+#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
+https://op-group1-swiftservehd-1.dens.tv/h/h24/index.m3u8
 
 #EXTINF:-1 tvg-id="KOMPAS TV - [Channel 116].id" tvg-name="KOMPAS TV" tvg-logo="https://images.indihometv.com/logo_kompastv_big1.png" group-title="NASIONAL", KOMPAS TV HD
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Mobile Safari/537.36
@@ -186,3 +191,4 @@ https://cdn08jtedge.indihometv.com/dassdvr/194/maxstream/manifest.mpd
 
 #EXTINF:-1 tvg-logo="https://tv.canhabsyi.cloud/img/canal86.jpg" group-title="NASIONAL", CANAL86 HD
 ######https://live.canhabsyi.cloud/memfs/a1119df8-d9a2-4313-a8ee-ab33388fa8a7.m3u8
+
