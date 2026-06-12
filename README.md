@@ -16,19 +16,19 @@
 
 <br>
 
-`https://canhabsyi.github.io/`
+`https://canhabsyi.github.io/jwp`
 
 <br>
 
 **Add Url M3U8/MPD:**
 
 ```url
-https://canhabsyi.github.io#https://example.com/stream.m3u8
+https://canhabsyi.github.io/jwp?url=https://example.com/stream.m3u8
 ```
 
 
 ```url
-https://canhabsyi.github.io#https://example.com/manifest.mpd
+https://canhabsyi.github.io/jwp?url=https://example.com/manifest.mpd
 ```
 
 <br>
