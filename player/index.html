@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Stream-Now</title>
+    <title>Clappr Player</title>
     
     <link rel="icon" href="https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/logo/play.png" type="image/png" />
 
@@ -34,6 +34,18 @@
             width: 100%;
             height: 100%;
         }
+
+        /* --- CSS UNTUK MENYEMBUNYIKAN TIME BAR / DVR --- */
+        /* Menyembunyikan bar progress (seek bar) */
+        .media-control[data-media-control] .media-control-center-panel,
+        .media-control[data-media-control] .bar-container {
+            display: none !important;
+        }
+        
+        /* Menyembunyikan teks indikator waktu (misal: 00:00 / 01:20) */
+        .media-control-indicator[data-time-indicator] {
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -49,12 +61,11 @@
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
 
-        // 2. Tangkap URL dan Key DRM (Hanya menggunakan k1 dan k2)
+        // 2. Tangkap URL dan Key DRM (Menggunakan k1 dan k2)
         var videoUrl = getParameterByName('url') || 'https://canhabsyi.github.io/hls/playlist.m3u8';
         var k1 = getParameterByName('k1');
         var k2 = getParameterByName('k2');
 
-        // Setup format ClearKeys jika parameter k1 dan k2 ada
         var clearKeysConfig = {};
         if (k1 && k2) {
             clearKeysConfig[k1] = k2;
@@ -63,11 +74,15 @@
         // 3. Inisialisasi Clappr Player
         var player = new Clappr.Player({
             source: videoUrl,
-            plugins: { playback: [DashShakaPlayback] },
+            plugins: { 
+                playback: [DashShakaPlayback],
+                remove: ['click_to_pause'] // Menonaktifkan jeda saat tengah layar diklik
+            },
             parentId: '#player-container',
             width: "100%",
             height: "100%",
-            autoPlay: false,
+            autoPlay: true,
+            mute: true, // Wajib mute awal agar autoplay diizinkan browser
             poster: "https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/gif/loading.gif",
             shakaConfiguration: {
                 drm: {
@@ -76,19 +91,32 @@
             }
         });
 
-        // 4. Fungsi Rotasi Layar (Landscape) saat Fullscreen
+        // 4. Logika Volume & Unmute
+        if (player) {
+            player.setVolume(50); 
+        }
+        
+        document.body.addEventListener('click', () => {
+            if (player) {
+                if (player.core && player.core.mediaControl) {
+                    player.core.mediaControl.unmute();
+                } else {
+                    player.setVolume(50);
+                }
+            }
+        }, { once: true });
+
+        // 5. Fungsi Rotasi Layar (Landscape) saat Fullscreen
         function onFullScreenChange() {
             var isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
             
             if (isFullscreen) {
-                // Memasuki layar penuh -> Kunci ke Landscape
                 if (screen.orientation && screen.orientation.lock) {
                     screen.orientation.lock('landscape').catch(function(err) {
                         console.log("Kunci orientasi gagal: ", err);
                     });
                 }
             } else {
-                // Keluar layar penuh -> Buka Kunci
                 if (screen.orientation && screen.orientation.unlock) {
                     screen.orientation.unlock();
                 }
