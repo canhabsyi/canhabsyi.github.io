@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +7,7 @@
     
     <link rel="icon" href="https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/logo/play.png" type="image/png" />
 
-    <!-- Script Keamanan (Bawaan Anda) -->
+    <!-- Script Keamanan -->
     <script src="https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/lock.js"></script>
     <script disable-devtool-auto src="https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/dev.js"></script>
 
@@ -48,15 +49,15 @@
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
 
-        // 2. Tangkap URL dan Key DRM
+        // 2. Tangkap URL dan Key DRM (Hanya menggunakan k1 dan k2)
         var videoUrl = getParameterByName('url') || 'https://canhabsyi.github.io/hls/playlist.m3u8';
-        var keyId = getParameterByName('k1');
-        var key = getParameterByName('k2');
+        var k1 = getParameterByName('k1');
+        var k2 = getParameterByName('k2');
 
-        // Setup format ClearKeys jika parameter ada
+        // Setup format ClearKeys jika parameter k1 dan k2 ada
         var clearKeysConfig = {};
-        if (keyId && key) {
-            clearKeysConfig[keyId] = key;
+        if (k1 && k2) {
+            clearKeysConfig[k1] = k2;
         }
 
         // 3. Inisialisasi Clappr Player
@@ -66,7 +67,7 @@
             parentId: '#player-container',
             width: "100%",
             height: "100%",
-            autoPlay: true,
+            autoPlay: false,
             poster: "https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/gif/loading.gif",
             shakaConfiguration: {
                 drm: {
