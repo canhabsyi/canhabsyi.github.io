@@ -1,4 +1,667 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
+    <title>Stream Player - Custom UI Clappr</title>
+    
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/logo/play.png" type="image/png" />
 
+    <!-- Script Keamanan & Orientasi (Dari Script 1 & 2) -->
+    <script src="https://cdn.jsdelivr.net/gh/canhabsyi/canal86@refs/heads/main/fullscreen-auto-rotation.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/lock.js"></script>
+    <script disable-devtool-auto src="https://cdn.jsdelivr.net/gh/canhabsyi/canal86@main/dev.js"></script>
 
+    <!-- Clappr & Shaka Plugins (Dari Script 1) -->
+    <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/clappr/dash-shaka-playback@latest/dist/dash-shaka-playback.js"></script>
 
+    <style>
+        /* =========================================
+           RESET & BASIC SETUP
+        ========================================= */
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            user-select: none; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+        
+        body { 
+            background-color: #000000; 
+            width: 100vw; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+
+        /* =========================================
+           PLAYER WRAPPER & LAYERS
+        ========================================= */
+        .player-wrapper { 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background-color: #000000; 
+        }
+        .player-wrapper.hide-cursor { cursor: none; }
+        
+        #clappr-container { 
+            width: 100%; height: 100%; 
+            position: absolute; 
+            top: 0; left: 0; 
+        }
+
+        /* UI Overlays */
+        .player-logo { 
+            position: absolute; 
+            bottom: 80px; left: 20px; 
+            height: 40px; 
+            z-index: 5; 
+            pointer-events: none; 
+            opacity: 0; 
+            transition: opacity 0.8s ease; 
+        }
+        
+        .loading-overlay { 
+            position: absolute; top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            display: flex; justify-content: center; align-items: center; 
+            background-color: rgba(0, 0, 0, 0.7); 
+            z-index: 9; 
+            pointer-events: none; 
+            transition: opacity 0.3s ease, visibility 0.3s ease; 
+            opacity: 1; visibility: visible; 
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .loading-overlay.hide-loading { opacity: 0; visibility: hidden; }
+        .loading-overlay img { width: 60px; height: 60px; }
+
+        .video-overlay { 
+            position: absolute; top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            display: flex; flex-direction: column; justify-content: flex-end; 
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,0.85) 100%); 
+            pointer-events: none; 
+            transition: opacity 0.4s ease-in-out; 
+            opacity: 1; 
+            z-index: 10; 
+        }
+        .video-overlay.fade-out { opacity: 0; }
+        
+        .bottom-controls, .quality-panel { pointer-events: auto; }
+
+        /* =========================================
+           BOTTOM CONTROLS UI
+        ========================================= */
+        .bottom-controls { 
+            width: 100%; height: 70px; 
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 0 24px; 
+        }
+        .left-controls, .right-controls { display: flex; align-items: center; gap: 16px; }
+
+        .control-icon { 
+            background: none; border: none; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; 
+            padding: 8px; transition: all 0.2s ease; 
+            flex-shrink: 0; border-radius: 50%; 
+        }
+        .control-icon:hover { 
+            transform: scale(1.15); 
+            background-color: rgba(255,255,255,0.15); 
+        }
+        .control-icon svg { fill: #ffffff; width: 28px; height: 28px; flex-shrink: 0; }
+
+        /* Volume Slider */
+        .volume-container { display: flex; align-items: center; flex-shrink: 0; }
+        .volume-slider { 
+            width: 0; opacity: 0; margin-left: 0; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            pointer-events: none; cursor: pointer; 
+            accent-color: #ff0000; height: 4px; 
+        }
+        .volume-container:hover .volume-slider, .volume-slider.show { 
+            width: 80px; opacity: 1; margin-left: 12px; pointer-events: auto; 
+        }
+
+        /* Live Status Badge */
+        .live-status { 
+            display: flex; align-items: center; gap: 8px; 
+            cursor: pointer; transition: all 0.2s; 
+            padding: 6px 10px; flex-shrink: 0; border-radius: 6px; 
+        }
+        .live-status:hover { background-color: rgba(255,255,255,0.15); }
+        
+        .live-dot { 
+            width: 10px; height: 10px; background-color: #ff3b30; 
+            border-radius: 50%; box-shadow: 0 0 10px #ff3b30; 
+            animation: blink 1.5s infinite; flex-shrink: 0; transition: all 0.3s; 
+        }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        
+        .live-text { 
+            font-size: 15px; font-weight: 700; letter-spacing: 0.5px; 
+            color: #ffffff; transition: color 0.3s; white-space: nowrap; 
+        }
+        .live-status.is-vod { display: none !important; }
+        .live-status.behind-live .live-dot { background-color: #888888; box-shadow: none; animation: none; }
+        .live-status.behind-live .live-text { color: #888888; }
+
+        /* =========================================
+           QUALITY PANEL (GLASSMORPHISM)
+        ========================================= */
+        .resolution-trigger { 
+            font-size: 14px; font-weight: 700; color: #ffffff; 
+            cursor: pointer; padding: 6px 12px; transition: all 0.2s; 
+            display: flex; align-items: center; gap: 6px; 
+            flex-shrink: 0; white-space: nowrap; border-radius: 6px; 
+        }
+        .resolution-trigger:hover { color: #fff; background-color: rgba(255,255,255,0.2); }
+
+        .quality-panel { 
+            position: absolute; right: 24px; bottom: 80px; 
+            min-width: 150px; max-height: calc(100vh - 100px); 
+            overflow-y: auto; 
+            z-index: 15; 
+            display: flex; flex-direction: column; 
+            padding: 6px;
+            
+            background-color: rgba(15, 15, 15, 0.45); 
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4); 
+            border-radius: 12px; 
+            
+            transform: translateY(10px); opacity: 0; visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .quality-panel.show-panel { transform: translateY(0); opacity: 1; visibility: visible; }
+        .quality-panel::-webkit-scrollbar { width: 4px; }
+        .quality-panel::-webkit-scrollbar-track { background: transparent; }
+        .quality-panel::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.4); border-radius: 10px; }
+
+        .quality-option { 
+            width: 100%; padding: 10px 14px; text-align: left; 
+            font-size: 13px; font-weight: 700; color: #ffffff; 
+            cursor: pointer; background: transparent; border: none; 
+            outline: none; transition: all 0.2s ease; 
+            display: flex; justify-content: space-between; align-items: center; 
+            gap: 12px; border-radius: 8px; margin-bottom: 2px;
+        }
+        .quality-option:last-child { margin-bottom: 0; }
+        .quality-option.selected { 
+            background-color: rgba(255, 255, 255, 0.95) !important; 
+            color: #000000 !important; 
+            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+        }
+        .quality-option:hover:not(.selected) { background-color: rgba(255, 255, 255, 0.15); }
+        
+        /* Badges */
+        .badge { font-size: 10px; padding: 3px 6px; border-radius: 4px; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
+        .badge-8k { background-color: #9333ea; } 
+        .badge-4k { background-color: #3b82f6; } 
+        .badge-qhd { background-color: #f59e0b; } 
+        .badge-fhd { background-color: #cc0000; } 
+        .badge-hd { background-color: #ff0000; } 
+        .badge-qhdsd { background-color: #10b981; } 
+        .badge-sd { background-color: #6b7280; } 
+        
+        .hidden { display: none !important; }
+
+        /* Error Message UI */
+        #messageUI { 
+            position: absolute; top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background-color: #000; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            color: #ff4444; font-size: 18px; font-weight: bold; text-align: center; 
+            z-index: 20; display: none; padding: 20px; 
+        }
+        #messageUI button { 
+            margin-top: 15px; padding: 10px 20px; 
+            background-color: #ff4444; color: white; 
+            border: none; border-radius: 6px; cursor: pointer; 
+            font-weight: bold; font-size: 14px; transition: 0.2s;
+        }
+        #messageUI button:hover { background-color: #cc0000; }
+
+        /* =========================================
+           MOBILE RESPONSIVE
+        ========================================= */
+        @media (max-width: 600px) { 
+            .volume-container:hover .volume-slider, .volume-slider.show { width: 60px; margin-left: 8px; } 
+            .bottom-controls { padding: 0 12px; }
+            .quality-panel { right: 12px !important; bottom: 70px; }
+            .control-icon { padding: 6px; }
+            .control-icon svg { width: 24px; height: 24px; }
+            .resolution-trigger { font-size: 13px; padding: 6px 8px; }
+            .live-text { font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+        // Lapis Keamanan Iframe
+        if (window.self === window.top) {
+            document.body.innerHTML = `
+                <div style='background-color:#000; width:100vw; height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; margin:0;'>
+                    <svg style='width:60px; height:60px; fill:#ff4444; margin-bottom:15px;' viewBox='0 0 24 24'><path d='M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z'/></svg>
+                    <h2 style='color:#fff; font-family:sans-serif; text-align:center;'>Akses Langsung Ditolak</h2>
+                    <p style='color:#888; font-family:sans-serif; margin-top:10px;'>Konten ini hanya dapat diputar melalui web resmi.</p>
+                </div>`;
+            throw new Error("Akses langsung diblokir.");
+        }
+    </script>
+
+    <div class="player-wrapper" id="playerWrapper">
+        <!-- Container untuk Clappr Player -->
+        <div id="clappr-container"></div>
+        
+        <img src="https://static-web.prod.vidiocdn.com/_next/static/shaka-player/loader.gif" class="player-logo" id="playerLogo" alt="Logo">
+        
+        <div class="loading-overlay" id="loadingOverlay">
+            <img src="https://static-web.prod.vidiocdn.com/_next/static/shaka-player/loader.gif" alt="Loading...">
+        </div>
+
+        <div id="messageUI">
+            <span id="messageText"></span>
+            <button onclick="location.reload()">Coba Lagi</button>
+        </div>
+
+        <!-- Custom Controls UI -->
+        <div class="video-overlay" id="videoOverlay">
+            <div class="quality-panel" id="qualityMenu"></div>
+
+            <div class="bottom-controls">
+                <div class="left-controls">
+                    <button class="control-icon" id="playPauseBtn" aria-label="Play/Pause">
+                        <svg viewBox="0 0 24 24" id="playIcon" class="hidden"><path d="M8 5v14l11-7z"/></svg>
+                        <svg viewBox="0 0 24 24" id="pauseIcon"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    </button>
+
+                    <div class="volume-container">
+                        <button class="control-icon" id="muteBtn" aria-label="Mute/Unmute">
+                            <svg viewBox="0 0 24 24" id="volumeUpIcon"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                            <svg viewBox="0 0 24 24" id="volumeMutedIcon" class="hidden"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                        </button>
+                        <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" step="1" value="50">
+                    </div>
+
+                    <div class="live-status is-vod" id="liveBtn">
+                        <div class="live-dot"></div>
+                        <span class="live-text" id="liveText">LIVE</span>
+                    </div>
+                </div>
+
+                <div class="right-controls">
+                    <div class="resolution-trigger" id="currentQualityDisplay">Auto</div>
+                    <button class="control-icon" id="fullscreenBtn" aria-label="Fullscreen">
+                        <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const DOM = {
+            wrapper: document.getElementById('playerWrapper'),
+            overlay: document.getElementById('videoOverlay'),
+            playPauseBtn: document.getElementById('playPauseBtn'),
+            playIcon: document.getElementById('playIcon'),
+            pauseIcon: document.getElementById('pauseIcon'),
+            muteBtn: document.getElementById('muteBtn'),
+            volUpIcon: document.getElementById('volumeUpIcon'),
+            volMuteIcon: document.getElementById('volumeMutedIcon'),
+            volSlider: document.getElementById('volumeSlider'),
+            qualityDisplay: document.getElementById('currentQualityDisplay'),
+            qualityMenu: document.getElementById('qualityMenu'),
+            messageUI: document.getElementById('messageUI'),
+            messageText: document.getElementById('messageText'),
+            liveBtn: document.getElementById('liveBtn'),
+            liveText: document.getElementById('liveText'),
+            fsBtn: document.getElementById('fullscreenBtn'),
+            loading: document.getElementById('loadingOverlay'),
+            logo: document.getElementById('playerLogo')
+        };
+
+        // Utility Functions
+        const showLoading = () => DOM.loading.classList.remove('hide-loading');
+        const hideLoading = () => DOM.loading.classList.add('hide-loading');
+        const showMessage = (msg) => { DOM.messageText.innerHTML = msg; DOM.messageUI.style.display = 'flex'; hideLoading(); };
+        const hideMessage = () => { DOM.messageUI.style.display = 'none'; };
+
+        let player = null;
+        let hideUITimer;
+        let lastVolume = 50; 
+        let isLiveStream = false;
+        let clapprLevels = []; // Menyimpan data resolusi
+
+        // Parameter URL (Dari Script 1 & 2)
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        var videoUrl = getParameterByName('url') || 'https://canhabsyi.github.io/hls/playlist.m3u8';
+        var k1 = getParameterByName('k1');
+        var k2 = getParameterByName('k2');
+
+        var clearKeysConfig = {};
+        if (k1 && k2) {
+            clearKeysConfig[k1] = k2;
+        }
+
+        // Inisialisasi Clappr Player
+        function setupPlayer() {
+            showLoading();
+            
+            player = new Clappr.Player({
+                source: videoUrl,
+                plugins: { 
+                    playback: [DashShakaPlayback],
+                    remove: ['click_to_pause'] 
+                },
+                parentId: '#clappr-container',
+                width: "100%",
+                height: "100%",
+                autoPlay: true,
+                mute: true, // Bypass Autoplay Browser
+                chromeless: true, // PENTING: Menyembunyikan UI Bawaan Clappr
+                shakaConfiguration: {
+                    drm: { clearKeys: clearKeysConfig }
+                }
+            });
+
+            setupPlayerEvents();
+        }
+
+        // Jalankan Setup
+        setupPlayer();
+
+        // --- Core Player Events (Map API Clappr) ---
+        function setupPlayerEvents() {
+            player.on(Clappr.Events.PLAYER_READY, () => {
+                player.setVolume(lastVolume);
+                updateMuteUI();
+                setTimeout(() => DOM.logo.style.opacity = '0', 1000);
+            });
+
+            player.on(Clappr.Events.PLAYER_BUFFERING, showLoading);
+            
+            player.on(Clappr.Events.PLAYER_PLAY, () => {
+                hideLoading();
+                updatePlayPauseUI(false); 
+                updateMuteUI();
+                startHideTimer();
+            });
+            
+            player.on(Clappr.Events.PLAYER_PAUSE, () => {
+                updatePlayPauseUI(true);
+                showUI(); 
+            });
+            
+            player.on(Clappr.Events.PLAYER_TIMEUPDATE, (e) => {
+                // e.current, e.total
+                if(e.total > 0 && e.total < Infinity) {
+                    isLiveStream = false;
+                    DOM.liveBtn.classList.add('is-vod');
+                } else if (e.total === 0 || !e.total) {
+                    isLiveStream = true;
+                    DOM.liveBtn.classList.remove('is-vod');
+                }
+            });
+
+            player.on(Clappr.Events.PLAYER_ERROR, function(error) {
+                console.warn("Clappr Error:", error);
+                hideLoading(); 
+                showMessage("Stream gagal dimuat atau sedang offline.");
+            });
+
+            // Resolusi / Quality Level Events (Clappr)
+            player.on(Clappr.Events.PLAYBACK_LEVELS_AVAILABLE, function(levels) {
+                clapprLevels = levels;
+                generateQualityUI(levels);
+            });
+
+            player.on(Clappr.Events.PLAYBACK_LEVEL_SWITCH_END, function() {
+                updateQualitySelection();
+            });
+        }
+
+        // --- Quality Management ---
+        function getBadgeHtml(height) {
+            if (height >= 4320) return '<span class="badge badge-8k">8K</span>';
+            if (height >= 2160) return '<span class="badge badge-4k">4K</span>';
+            if (height >= 1440) return '<span class="badge badge-qhd">QHD</span>';
+            if (height >= 1080) return '<span class="badge badge-fhd">FHD</span>';
+            if (height >= 720) return '<span class="badge badge-hd">HD</span>';
+            if (height >= 540) return '<span class="badge badge-qhdsd">qHD</span>';
+            if (height > 0 && height <= 480) return '<span class="badge badge-sd">SD</span>';
+            return '';
+        }
+
+        function generateQualityUI(levels) {
+            if(!levels || levels.length === 0) return;
+            DOM.qualityMenu.innerHTML = '';
+            
+            // Tambah opsi AUTO
+            const autoBtn = document.createElement('button');
+            autoBtn.className = 'quality-option selected'; 
+            autoBtn.innerHTML = '<span>Auto</span>';
+            autoBtn.addEventListener('click', () => {
+                player.core.getCurrentPlayback().currentLevel = -1; // -1 Biasanya Auto di Clappr
+                DOM.qualityMenu.classList.remove('show-panel');
+                updateQualitySelection();
+            });
+            DOM.qualityMenu.appendChild(autoBtn);
+
+            // Opsi Resolusi Lainnya
+            levels.forEach((level) => {
+                if (level.id === -1) return; // Skip auto jika ada di array
+                const btn = document.createElement('button');
+                btn.className = 'quality-option'; 
+                
+                let height = level.height || level.label;
+                let labelText = height ? height + "p" : "Unknown";
+                
+                btn.innerHTML = `<span>${labelText}</span> ${getBadgeHtml(level.height)}`;
+                
+                btn.addEventListener('click', () => {
+                    player.core.getCurrentPlayback().currentLevel = level.id;
+                    DOM.qualityMenu.classList.remove('show-panel');
+                    updateQualitySelection();
+                });
+                
+                // Tambahkan sebagai data atribut agar mudah ditandai saat update
+                btn.dataset.levelId = level.id;
+                DOM.qualityMenu.appendChild(btn);
+            });
+        }
+
+        function updateQualitySelection() {
+            if (!player || !player.core || !player.core.getCurrentPlayback()) return;
+            let currentLevelId = player.core.getCurrentPlayback().currentLevel;
+            
+            const options = document.querySelectorAll('.quality-option');
+            options.forEach(el => el.classList.remove('selected'));
+
+            if (currentLevelId === -1 || currentLevelId === undefined) {
+                // AUTO terpilih
+                options[0].classList.add('selected');
+                DOM.qualityDisplay.innerHTML = 'Auto';
+            } else {
+                // Resolusi spesifik terpilih
+                options.forEach(el => {
+                    if(el.dataset.levelId == currentLevelId) {
+                        el.classList.add('selected');
+                        let matchedLevel = clapprLevels.find(l => l.id == currentLevelId);
+                        if(matchedLevel) {
+                            let height = matchedLevel.height;
+                            let badgeHtml = getBadgeHtml(height);
+                            DOM.qualityDisplay.innerHTML = badgeHtml ? `${height}p (${badgeHtml})` : `${height}p`;
+                        }
+                    }
+                });
+            }
+        }
+
+        // --- Controls Interactions ---
+        DOM.playPauseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (player) {
+                player.isPlaying() ? player.pause() : player.play();
+            }
+        });
+
+        // Klik layar utama untuk play/pause & unmute pertama
+        DOM.wrapper.addEventListener('click', (e) => {
+            if (e.target.closest('.bottom-controls') || e.target.closest('.quality-panel') || e.target.closest('.resolution-trigger')) return;
+            
+            if (player) {
+                // Unmute trik browser
+                if (player.getVolume() === 0) {
+                    player.setVolume(lastVolume > 0 ? lastVolume : 50);
+                }
+                player.isPlaying() ? player.pause() : player.play();
+            }
+        });
+
+        function updatePlayPauseUI(isPaused) {
+            if (isPaused) { 
+                DOM.playIcon.classList.remove('hidden'); 
+                DOM.pauseIcon.classList.add('hidden'); 
+            } else { 
+                DOM.playIcon.classList.add('hidden'); 
+                DOM.pauseIcon.classList.remove('hidden'); 
+            }
+        }
+
+        function updateMuteUI() {
+            if (!player) return;
+            const vol = player.getVolume();
+            
+            if (vol === 0) { 
+                DOM.volUpIcon.classList.add('hidden'); 
+                DOM.volMuteIcon.classList.remove('hidden'); 
+                DOM.volSlider.value = 0; 
+            } else { 
+                DOM.volUpIcon.classList.remove('hidden'); 
+                DOM.volMuteIcon.classList.add('hidden'); 
+                DOM.volSlider.value = vol; 
+            }
+        }
+
+        DOM.volSlider.addEventListener('input', (e) => {
+            e.stopPropagation(); 
+            const vol = parseInt(e.target.value);
+            player.setVolume(vol);
+            if (vol > 0) lastVolume = vol;
+            updateMuteUI();
+        });
+
+        DOM.muteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (window.matchMedia("(pointer: coarse)").matches && !DOM.volSlider.classList.contains('show')) { 
+                DOM.volSlider.classList.add('show'); return; 
+            }
+            
+            if(player.getVolume() === 0) { 
+                player.setVolume(lastVolume > 0 ? lastVolume : 50); 
+            } else { 
+                lastVolume = player.getVolume(); 
+                player.setVolume(0); 
+            }
+            updateMuteUI();
+        });
+
+        // Fullscreen & Auto-Rotate
+        DOM.fsBtn.addEventListener('click', (e) => { 
+            e.stopPropagation(); 
+            toggleFullscreen(); 
+        });
+        
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) { 
+                DOM.wrapper.requestFullscreen().catch(err => console.log(err)); 
+            } else { 
+                document.exitFullscreen(); 
+            }
+        }
+
+        function onFullScreenChange() {
+            var isFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement;
+            if (isFullscreen) {
+                if (screen.orientation && screen.orientation.lock) {
+                    screen.orientation.lock('landscape').catch(e => console.log("Rotate lock failed"));
+                }
+            } else {
+                if (screen.orientation && screen.orientation.unlock) {
+                    screen.orientation.unlock();
+                }
+            }
+        }
+        document.addEventListener('fullscreenchange', onFullScreenChange);
+
+        // Toggle Quality Menu
+        DOM.qualityDisplay.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            DOM.qualityMenu.classList.toggle('show-panel');
+        });
+
+        // --- UI Visibility Timer ---
+        function startHideTimer() {
+            clearTimeout(hideUITimer);
+            if (player && player.isPlaying()) {
+                hideUITimer = setTimeout(() => {
+                    DOM.overlay.classList.add('fade-out'); 
+                    DOM.wrapper.classList.add('hide-cursor'); 
+                    DOM.qualityMenu.classList.remove('show-panel'); 
+                    DOM.volSlider.classList.remove('show'); 
+                }, 3500);
+            }
+        }
+
+        function showUI() {
+            clearTimeout(hideUITimer); 
+            DOM.overlay.classList.remove('fade-out'); 
+            DOM.wrapper.classList.remove('hide-cursor'); 
+            startHideTimer();
+        }
+
+        DOM.wrapper.addEventListener('mousemove', showUI);
+        DOM.wrapper.addEventListener('touchstart', showUI);
+        
+        // Hide panel when click outside
+        DOM.wrapper.addEventListener('click', (e) => {
+            showUI();
+            if (!DOM.qualityMenu.contains(e.target) && e.target !== DOM.qualityDisplay) {
+                DOM.qualityMenu.classList.remove('show-panel');
+            }
+            if (!e.target.closest('.volume-container')) {
+                DOM.volSlider.classList.remove('show');
+            }
+        });
+        
+        DOM.wrapper.addEventListener('mouseleave', () => {
+            if (player && player.isPlaying()) {
+                clearTimeout(hideUITimer); 
+                DOM.overlay.classList.add('fade-out'); 
+                DOM.wrapper.classList.add('hide-cursor');
+            }
+        });
+
+    </script>
+</body>
+</html>
