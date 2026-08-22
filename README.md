@@ -16,19 +16,19 @@
 
 <br>
 
-`https://canhabsyi.github.io/jwp`
+`https://canhabsyi.github.io/`
 
 <br>
 
 **Add Url M3U8/MPD:**
 
 ```url
-https://canhabsyi.github.io/jwp?url=https://example.com/stream.m3u8
+https://canhabsyi.github.io/?url=https://example.com/stream.m3u8
 ```
 
 
 ```url
-https://canhabsyi.github.io/jwp?url=https://example.com/manifest.mpd
+https://canhabsyi.github.io/?url=https://example.com/manifest.mpd
 ```
 
 <br>
@@ -41,14 +41,14 @@ https://canhabsyi.github.io/jwp?url=https://example.com/manifest.mpd
 
 <br>
 
-`https://canhabsyi.github.io/plyr`
+`https://canhabsyi.github.io/`
 
 <br>
 
 **Add M3U8/MPD With Clearkey:**
 
 ```url
-https://canhabsyi.github.io/plyr?url=https://example.com/stream.m3u8&keyId=your_key_id_in_base64&key=your_key_in_base64
+https://canhabsyi.github.io/?url=https://example.com/stream.m3u8&k1=your_key_id_in_base64&k2=your_key_in_base64
 ```
 
 <br>
