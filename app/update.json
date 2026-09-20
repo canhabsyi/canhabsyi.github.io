@@ -1,10 +1,10 @@
 {
   "versionCode": 2,
   "versionName": "1.1",
+  "forceUpdate": true,
+  "downloadUrl": "https://github.com/canhabsyi/nama-repo/releases/download/v1.1/icn-play.apk",
   "changelog": [
-    "- Ganti tema jadi biru elegan",
-    "- Perbaikan bug remote TV",
-    "- Tambah fitur auto-save"
-  ],
-  "downloadUrl": "https://canhabsyi.github.io/app/iCN_Play_v1.1.apk"
+    "Perbaikan bug layar",
+    "Tambah channel baru"
+  ]
 }
