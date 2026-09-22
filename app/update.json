@@ -1,7 +1,7 @@
 {
-  "versionCode": 23,
+  "versionCode": 13,
   "versionName": "1.1",
-  "forceUpdate": true,
+  "forceUpdate": false,
   "downloadUrl": "https://github.com/canhabsyi/nama-repo/releases/download/v1.1/icn-play.apk",
   "changelog": [
     "Perbaikan bug layar",
